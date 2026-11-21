@@ -1,0 +1,26 @@
+
+> laboratorio-de-pruebas-dinamicas@1.0.0 rendimiento
+> node tests/rendimiento.js
+
+=== Medición exploratoria de rendimiento (RNF-01 / CP-19) ===
+Fecha: 2026-11-21T18:12:58.794Z
+Node.js: v24.10.0
+Sistema: Windows_NT 10.0.26300 (x64)
+CPU: 12th Gen Intel(R) Core(TM) i5-12450H (12 núcleos)
+RAM total: 15.7 GB
+Llamadas por corrida: 100000 | Corridas: 5 | Calentamiento: 20000
+
+Camino válido (entradas correctas)
+  Tiempos por corrida (ms): 6.02, 5.32, 3.80, 3.48, 3.86
+  Mínimo: 3.48 ms | Mediana: 3.86 ms | Máximo: 6.02 ms
+  Promedio por llamada (según mediana): 0.039 µs
+  Llamadas por segundo (según mediana): 25,882,597
+
+Camino inválido (RangeError por precio negativo)
+  Tiempos por corrida (ms): 657.50, 774.35, 768.41, 741.63, 745.49
+  Mínimo: 657.50 ms | Mediana: 745.49 ms | Máximo: 774.35 ms
+  Promedio por llamada (según mediana): 7.455 µs
+  Llamadas por segundo (según mediana): 134,141
+
+Criterio de referencia (informativo): 100 000 llamadas válidas en menos de 1 000 ms.
+Resultado: dentro del criterio de referencia (mediana 3.86 ms).
