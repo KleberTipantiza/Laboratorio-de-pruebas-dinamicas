@@ -16,6 +16,7 @@ Se evaluó dinámicamente la función `calcularTotal(precio, cantidad, descuento
 | Tras corregir DEF-02 | Commit: 61a4dbcd5e2e05118d6e4f58af07413b27492fa4 | 14 | 4 | 18 |
 | Tras corregir DEF-03 | Commit: 3b5304053a5cd66d80a1b0f71d4e2bd53b201466 | 16 | 2 | 18 |
 | Final (tras DEF-01) | `evidencias/pruebas-finales.txt` | 18 | 0 | 18 |
+
 Casos que fallaron al inicio: CP-05, CP-06 y CP-07 a CP-16. Casos que pasaron desde el inicio: CP-01 a CP-04, CP-17 y CP-18.
 ## 4. Defectos
 | ID | Título | Requisito | Casos | Severidad | Corrección (commit) | Estado |
@@ -24,6 +25,7 @@ Casos que fallaron al inicio: CP-05, CP-06 y CP-07 a CP-16. Casos que pasaron de
 | DEF-02 | Se aceptan precios y cantidades fuera de rango | RF-04 | CP-07, CP-08, CP-09 | Alta | 61a4dbcd5e2e05118d6e4f58af07413b27492fa4 | Cerrado |
 | DEF-03 | Se aceptan descuentos fuera de 0–100 % | RF-04 | CP-10, CP-11 | Alta | 3b5304053a5cd66d80a1b0f71d4e2bd53b201466 | Cerrado |
 | DEF-04 | No se validan tipos ni valores no finitos | RF-05 | CP-12 a CP-16 | Media | d2e439843fd8b6ce4eb6de67eac5ee2e3dcf7755 | Cerrado |
+
 El detalle de cada defecto (pasos, resultado esperado, resultado real y evidencia) está en `docs/registro-defectos.md`.
 ## 5. Cobertura por requisito
 | Requisito | Casos | Resultado inicial | Resultado final |
@@ -34,14 +36,17 @@ El detalle de cada defecto (pasos, resultado esperado, resultado real y evidenci
 | RF-04 `RangeError` | CP-07 a CP-11, CP-16, CP-17 | CP-07 a CP-11 y CP-16 fallidos | Aprobados |
 | RF-05 `TypeError` | CP-12 a CP-16 | Fallidos | Aprobados |
 | RNF-01 Rendimiento | CP-19 | No ejecutado | Ejecutado (sección 6) |
+
 **Cobertura funcional:** los 5 requisitos funcionales tienen al menos un caso automatizado asociado (5 de 5).
 ## 6. Medición exploratoria de rendimiento (RNF-01, CP-19)
 - **Script:** `tests/rendimiento.js`, ejecutado con `npm run rendimiento`. Evidencia en `evidencias/rendimiento.txt`.
 - **Método:** 20 000 llamadas de calentamiento y luego 5 corridas de 100 000 llamadas con cinco combinaciones de datos válidos. También se midió el camino de error (`RangeError`).
+
 | Camino | Mediana por corrida (ms) | Promedio por llamada (µs) | Llamadas por segundo |
 |---|---|---|---|
 | Válido | 3.86 | 0.039 | 25,882,597 |
 | Inválido (`RangeError`) | 745.49 | 7.455 | 134,141 |
+
 - **Criterio de referencia (informativo):** 100 000 llamadas válidas en menos de 1 000 ms. Resultado: [3.86 ms / 745.49 ms].
 - **Observación para la reflexión:** el camino que lanza excepciones suele ser más lento que el camino válido, porque crear un objeto `Error` captura la pila de llamadas. Esto es esperable y no es un defecto, pero conviene tenerlo presente si la función recibiera muchas entradas inválidas.
 **Limitaciones de la medición**
