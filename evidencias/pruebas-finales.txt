@@ -1,0 +1,35 @@
+
+> laboratorio-de-pruebas-dinamicas@1.0.0 test
+> jest --runInBand --verbose --no-color
+
+PASS tests/compras.test.js
+  RF-01: subtotal = precio x cantidad
+    √ CP-01: calcula el total con datos válidos y sin descuento (3 ms)
+    √ CP-17: precio 0 es válido y retorna 0 (supuesto 1)
+    √ CP-18: cantidad decimal positiva es válida (supuesto 2)
+  RF-02: descuento de 0 a 100 %
+    √ CP-02: aplica un descuento intermedio
+    √ CP-03: descuento 0 no modifica el subtotal (límite inferior)
+    √ CP-04: descuento 100 produce total 0 (límite superior)
+  RF-03: total con dos decimales
+    √ CP-05: evita errores de punto flotante (0.1 x 3)
+    √ CP-06: redondea a dos decimales (19.99 x 3 con 15 % de descuento)
+  RF-04: RangeError por valores fuera de rango
+    √ CP-07: precio negativo (17 ms)
+    √ CP-08: cantidad igual a 0 (1 ms)
+    √ CP-09: cantidad negativa
+    √ CP-10: descuento menor que 0 (1 ms)
+    √ CP-11: descuento mayor que 100 (2 ms)
+  RF-05: TypeError por entradas no numéricas o no finitas
+    √ CP-12: string numérico no se acepta como número (1 ms)
+    √ CP-13: null en la cantidad
+    √ CP-14: NaN en el precio (1 ms)
+    √ CP-15: Infinity en la cantidad
+  RF-04 y RF-05: prioridad entre errores (tabla de decisión)
+    √ CP-16: el tipo se valida antes que el rango (supuesto 3) (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       18 passed, 18 total
+Snapshots:   0 total
+Time:        0.462 s, estimated 1 s
+Ran all test suites.

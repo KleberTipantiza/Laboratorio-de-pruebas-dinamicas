@@ -8,10 +8,10 @@
 
 | ID | Título | Requisito | Casos que lo detectan | Severidad | Prioridad | Estado |
 |---|---|---|---|---|---|---|
-| DEF-01 | El total no se redondea a dos decimales | RF-03 | CP-05, CP-06 | Alta | Alta | Abierto |
-| DEF-02 | Se aceptan precios y cantidades fuera de rango | RF-04 | CP-07, CP-08, CP-09 | Alta | Alta | Abierto |
-| DEF-03 | Se aceptan descuentos fuera de 0–100 % | RF-04 | CP-10, CP-11 | Alta | Alta | Abierto |
-| DEF-04 | No se validan los tipos ni los valores no finitos | RF-05 | CP-12, CP-13, CP-14, CP-15, CP-16 | Media | Media | Abierto |
+| DEF-01 | El total no se redondea a dos decimales | RF-03 | CP-05, CP-06 | Alta | Alta | Cerrado |
+| DEF-02 | Se aceptan precios y cantidades fuera de rango | RF-04 | CP-07, CP-08, CP-09 | Alta | Alta | Cerrado |
+| DEF-03 | Se aceptan descuentos fuera de 0–100 % | RF-04 | CP-10, CP-11 | Alta | Alta | Cerrado |
+| DEF-04 | No se validan los tipos ni los valores no finitos | RF-05 | CP-12, CP-13, CP-14, CP-15, CP-16 | Media | Media | Cerrado |
 
 ## DEF-01 – El total no se redondea a dos decimales
 
@@ -24,6 +24,7 @@
 - **Severidad:** Alta. Una función de cálculo monetario devuelve importes con decimales indebidos y no existe alternativa aceptable para quien consume el valor.
 - **Prioridad:** Alta. Afecta a cualquier compra con precios decimales o descuentos.
 - **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-05 y CP-06.
+- **Commit de correcion:** Fix(DEF-01): redondea el total a dos decimales (RF-03) [a38dc2a9c8c7762db57fbb05ab19d319598bc815]
 
 ## DEF-02 – Se aceptan precios y cantidades fuera de rango
 
@@ -36,6 +37,7 @@
 - **Severidad:** Alta. Permite generar totales negativos o nulos para compras inválidas.
 - **Prioridad:** Alta.
 - **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-07, CP-08 y CP-09 (`Received function did not throw`).
+- **Commit de correcion:** Fix(DEF-02): rechaza precios negativos y cantidades menores o iguales a 0 (RF-04)[61a4dbcd5e2e05118d6e4f58af07413b27492fa4]
 
 ## DEF-03 – Se aceptan descuentos fuera de 0–100 %
 
@@ -48,6 +50,8 @@
 - **Severidad:** Alta. Altera el importe cobrado al cliente.
 - **Prioridad:** Alta.
 - **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-10 y CP-11.
+- **Commit de correcion:** Fix(DEF-03): rechaza descuentos fuera del rango 0-100 (RF-04)
+[3b5304053a5cd66d80a1b0f71d4e2bd53b201466]
 
 ## DEF-04 – No se validan los tipos ni los valores no finitos
 
@@ -60,6 +64,7 @@
 - **Severidad:** Media. Los valores incorrectos suelen provenir de la capa que invoca la función, y esa capa puede filtrarlos, pero el módulo devuelve resultados silenciosamente erróneos.
 - **Prioridad:** Media.
 - **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-12 a CP-16.
+- **Commit de correcion:** Fix(DEF-04): valida tipos numéricos y valores finitos (RF-05)[d2e439843fd8b6ce4eb6de67eac5ee2e3dcf7755]
 
 ## Plan de corrección (sin modificar los requisitos)
 
