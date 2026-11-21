@@ -18,9 +18,11 @@ function calcularTotal(precio, cantidad, descuento) {
   if (descuento < 0 || descuento > 100) {
     throw new RangeError('El descuento debe estar entre 0 y 100');
   }
-  
+
   const subtotal = precio * cantidad;
   const valorDescuento = subtotal * descuento / 100;
-  return subtotal - valorDescuento;
+  const total = subtotal - valorDescuento;
+  return Math.round((total + Number.EPSILON) * 100) / 100;
+  
 }
 module.exports = { calcularTotal };
