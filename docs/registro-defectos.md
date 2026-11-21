@@ -1,0 +1,72 @@
+# Registro de defectos – `calcularTotal`
+
+**Versión probada:** código inicial de `src/compras.js` (evidencia inicial)
+**Ambiente:** Windows, Node.js [versión], Jest 30, `jest --runInBand`
+**Evidencia de detección:** `evidencias/pruebas-iniciales.txt` (12 pruebas fallidas y 6 aprobadas de 18)
+
+## Resumen
+
+| ID | Título | Requisito | Casos que lo detectan | Severidad | Prioridad | Estado |
+|---|---|---|---|---|---|---|
+| DEF-01 | El total no se redondea a dos decimales | RF-03 | CP-05, CP-06 | Alta | Alta | Abierto |
+| DEF-02 | Se aceptan precios y cantidades fuera de rango | RF-04 | CP-07, CP-08, CP-09 | Alta | Alta | Abierto |
+| DEF-03 | Se aceptan descuentos fuera de 0–100 % | RF-04 | CP-10, CP-11 | Alta | Alta | Abierto |
+| DEF-04 | No se validan los tipos ni los valores no finitos | RF-05 | CP-12, CP-13, CP-14, CP-15, CP-16 | Media | Media | Abierto |
+
+## DEF-01 – El total no se redondea a dos decimales
+
+- **Requisito:** RF-03 (total con dos decimales).
+- **Pasos para reproducir:**
+  1. Ejecutar `npm test -- --verbose`.
+  2. Observar las pruebas CP-05 y CP-06, o llamar `calcularTotal(0.1, 3, 0)` y `calcularTotal(19.99, 3, 15)`.
+- **Resultado esperado:** `0.3` y `50.97`.
+- **Resultado real:** `0.30000000000000004` y `50.9745`.
+- **Severidad:** Alta. Una función de cálculo monetario devuelve importes con decimales indebidos y no existe alternativa aceptable para quien consume el valor.
+- **Prioridad:** Alta. Afecta a cualquier compra con precios decimales o descuentos.
+- **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-05 y CP-06.
+
+## DEF-02 – Se aceptan precios y cantidades fuera de rango
+
+- **Requisito:** RF-04 (`RangeError` para precio negativo o cantidad ≤ 0).
+- **Pasos para reproducir:**
+  1. Ejecutar `npm test -- --verbose`.
+  2. Observar CP-07, CP-08 y CP-09, o llamar `calcularTotal(-5, 2, 10)`, `calcularTotal(10, 0, 0)` y `calcularTotal(10, -1, 0)`.
+- **Resultado esperado:** la función lanza `RangeError` en los tres casos.
+- **Resultado real:** la función no lanza ninguna excepción y devuelve un valor calculado (por ejemplo, un total negativo).
+- **Severidad:** Alta. Permite generar totales negativos o nulos para compras inválidas.
+- **Prioridad:** Alta.
+- **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-07, CP-08 y CP-09 (`Received function did not throw`).
+
+## DEF-03 – Se aceptan descuentos fuera de 0–100 %
+
+- **Requisito:** RF-04 (`RangeError` para descuento fuera de rango) y RF-02.
+- **Pasos para reproducir:**
+  1. Ejecutar `npm test -- --verbose`.
+  2. Observar CP-10 y CP-11, o llamar `calcularTotal(10, 1, -1)` y `calcularTotal(10, 1, 101)`.
+- **Resultado esperado:** la función lanza `RangeError`.
+- **Resultado real:** no lanza excepción. Un descuento mayor que 100 produce un total negativo y uno menor que 0 incrementa el total.
+- **Severidad:** Alta. Altera el importe cobrado al cliente.
+- **Prioridad:** Alta.
+- **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-10 y CP-11.
+
+## DEF-04 – No se validan los tipos ni los valores no finitos
+
+- **Requisito:** RF-05 (`TypeError` para entradas no numéricas o no finitas).
+- **Pasos para reproducir:**
+  1. Ejecutar `npm test -- --verbose`.
+  2. Observar CP-12 a CP-16, o llamar `calcularTotal('10', 2, 0)`, `calcularTotal(10, null, 0)`, `calcularTotal(NaN, 2, 0)`, `calcularTotal(10, Infinity, 0)` y `calcularTotal(-5, '2', 0)`.
+- **Resultado esperado:** la función lanza `TypeError`.
+- **Resultado real:** no lanza excepción. JavaScript convierte los valores de forma implícita: `'10'` se trata como número, `null` como 0 y `NaN` o `Infinity` se propagan al resultado.
+- **Severidad:** Media. Los valores incorrectos suelen provenir de la capa que invoca la función, y esa capa puede filtrarlos, pero el módulo devuelve resultados silenciosamente erróneos.
+- **Prioridad:** Media.
+- **Evidencia:** `evidencias/pruebas-iniciales.txt`, fallos de CP-12 a CP-16.
+
+## Plan de corrección (sin modificar los requisitos)
+
+Se corregirá de forma incremental, con una ejecución completa de Jest y un commit después de cada defecto:
+
+1. DEF-04: validación de tipos y valores finitos (se hace primero para respetar el orden de validación del supuesto 3).
+2. DEF-02 y DEF-03: validación de rangos.
+3. DEF-01: redondeo a dos decimales.
+
+Después de cada paso se verifica que los casos que ya pasaban (CP-01 a CP-04, CP-17 y CP-18) sigan aprobados, y al final se guarda `evidencias/pruebas-finales.txt`.
