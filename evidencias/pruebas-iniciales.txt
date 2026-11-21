@@ -1,0 +1,249 @@
+
+> laboratorio-de-pruebas-dinamicas@1.0.0 test
+> jest --runInBand --verbose --no-color
+
+FAIL tests/compras.test.js
+  RF-01: subtotal = precio x cantidad
+    √ CP-01: calcula el total con datos válidos y sin descuento (1 ms)
+    √ CP-17: precio 0 es válido y retorna 0 (supuesto 1)
+    √ CP-18: cantidad decimal positiva es válida (supuesto 2)
+  RF-02: descuento de 0 a 100 %
+    √ CP-02: aplica un descuento intermedio (1 ms)
+    √ CP-03: descuento 0 no modifica el subtotal (límite inferior)
+    √ CP-04: descuento 100 produce total 0 (límite superior)
+  RF-03: total con dos decimales
+    × CP-05: evita errores de punto flotante (0.1 x 3) (2 ms)
+    × CP-06: redondea a dos decimales (19.99 x 3 con 15 % de descuento)
+  RF-04: RangeError por valores fuera de rango
+    × CP-07: precio negativo
+    × CP-08: cantidad igual a 0 (1 ms)
+    × CP-09: cantidad negativa
+    × CP-10: descuento menor que 0 (1 ms)
+    × CP-11: descuento mayor que 100
+  RF-05: TypeError por entradas no numéricas o no finitas
+    × CP-12: string numérico no se acepta como número
+    × CP-13: null en la cantidad
+    × CP-14: NaN en el precio
+    × CP-15: Infinity en la cantidad
+  RF-04 y RF-05: prioridad entre errores (tabla de decisión)
+    × CP-16: el tipo se valida antes que el rango (supuesto 3)
+
+  ● RF-03: total con dos decimales › CP-05: evita errores de punto flotante (0.1 x 3)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0.3
+    Received: 0.30000000000000004
+
+      34 | describe('RF-03: total con dos decimales', () => {
+      35 |   test('CP-05: evita errores de punto flotante (0.1 x 3)', () => {
+    > 36 |     expect(calcularTotal(0.1, 3, 0)).toBe(0.3);
+         |                                      ^
+      37 |   });
+      38 |
+      39 |   test('CP-06: redondea a dos decimales (19.99 x 3 con 15 % de descuento)', () => {
+
+      at Object.toBe (tests/compras.test.js:36:38)
+
+  ● RF-03: total con dos decimales › CP-06: redondea a dos decimales (19.99 x 3 con 15 % de descuento)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 50.97
+    Received: 50.9745
+
+      38 |
+      39 |   test('CP-06: redondea a dos decimales (19.99 x 3 con 15 % de descuento)', () => {
+    > 40 |     expect(calcularTotal(19.99, 3, 15)).toBe(50.97);
+         |                                         ^
+      41 |   });
+      42 | });
+      43 |
+
+      at Object.toBe (tests/compras.test.js:40:41)
+
+  ● RF-04: RangeError por valores fuera de rango › CP-07: precio negativo
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: RangeError
+
+    Received function did not throw
+
+      44 | describe('RF-04: RangeError por valores fuera de rango', () => {
+      45 |   test('CP-07: precio negativo', () => {
+    > 46 |     expect(() => calcularTotal(-5, 2, 10)).toThrow(RangeError);
+         |                                            ^
+      47 |   });
+      48 |
+      49 |   test('CP-08: cantidad igual a 0', () => {
+
+      at Object.toThrow (tests/compras.test.js:46:44)
+
+  ● RF-04: RangeError por valores fuera de rango › CP-08: cantidad igual a 0
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: RangeError
+
+    Received function did not throw
+
+      48 |
+      49 |   test('CP-08: cantidad igual a 0', () => {
+    > 50 |     expect(() => calcularTotal(10, 0, 0)).toThrow(RangeError);
+         |                                           ^
+      51 |   });
+      52 |
+      53 |   test('CP-09: cantidad negativa', () => {
+
+      at Object.toThrow (tests/compras.test.js:50:43)
+
+  ● RF-04: RangeError por valores fuera de rango › CP-09: cantidad negativa
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: RangeError
+
+    Received function did not throw
+
+      52 |
+      53 |   test('CP-09: cantidad negativa', () => {
+    > 54 |     expect(() => calcularTotal(10, -1, 0)).toThrow(RangeError);
+         |                                            ^
+      55 |   });
+      56 |
+      57 |   test('CP-10: descuento menor que 0', () => {
+
+      at Object.toThrow (tests/compras.test.js:54:44)
+
+  ● RF-04: RangeError por valores fuera de rango › CP-10: descuento menor que 0
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: RangeError
+
+    Received function did not throw
+
+      56 |
+      57 |   test('CP-10: descuento menor que 0', () => {
+    > 58 |     expect(() => calcularTotal(10, 1, -1)).toThrow(RangeError);
+         |                                            ^
+      59 |   });
+      60 |
+      61 |   test('CP-11: descuento mayor que 100', () => {
+
+      at Object.toThrow (tests/compras.test.js:58:44)
+
+  ● RF-04: RangeError por valores fuera de rango › CP-11: descuento mayor que 100
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: RangeError
+
+    Received function did not throw
+
+      60 |
+      61 |   test('CP-11: descuento mayor que 100', () => {
+    > 62 |     expect(() => calcularTotal(10, 1, 101)).toThrow(RangeError);
+         |                                             ^
+      63 |   });
+      64 | });
+      65 |
+
+      at Object.toThrow (tests/compras.test.js:62:45)
+
+  ● RF-05: TypeError por entradas no numéricas o no finitas › CP-12: string numérico no se acepta como número
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: TypeError
+
+    Received function did not throw
+
+      66 | describe('RF-05: TypeError por entradas no numéricas o no finitas', () => {
+      67 |   test('CP-12: string numérico no se acepta como número', () => {
+    > 68 |     expect(() => calcularTotal('10', 2, 0)).toThrow(TypeError);
+         |                                             ^
+      69 |   });
+      70 |
+      71 |   test('CP-13: null en la cantidad', () => {
+
+      at Object.toThrow (tests/compras.test.js:68:45)
+
+  ● RF-05: TypeError por entradas no numéricas o no finitas › CP-13: null en la cantidad
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: TypeError
+
+    Received function did not throw
+
+      70 |
+      71 |   test('CP-13: null en la cantidad', () => {
+    > 72 |     expect(() => calcularTotal(10, null, 0)).toThrow(TypeError);
+         |                                              ^
+      73 |   });
+      74 |
+      75 |   test('CP-14: NaN en el precio', () => {
+
+      at Object.toThrow (tests/compras.test.js:72:46)
+
+  ● RF-05: TypeError por entradas no numéricas o no finitas › CP-14: NaN en el precio
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: TypeError
+
+    Received function did not throw
+
+      74 |
+      75 |   test('CP-14: NaN en el precio', () => {
+    > 76 |     expect(() => calcularTotal(NaN, 2, 0)).toThrow(TypeError);
+         |                                            ^
+      77 |   });
+      78 |
+      79 |   test('CP-15: Infinity en la cantidad', () => {
+
+      at Object.toThrow (tests/compras.test.js:76:44)
+
+  ● RF-05: TypeError por entradas no numéricas o no finitas › CP-15: Infinity en la cantidad
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: TypeError
+
+    Received function did not throw
+
+      78 |
+      79 |   test('CP-15: Infinity en la cantidad', () => {
+    > 80 |     expect(() => calcularTotal(10, Infinity, 0)).toThrow(TypeError);
+         |                                                  ^
+      81 |   });
+      82 | });
+      83 |
+
+      at Object.toThrow (tests/compras.test.js:80:50)
+
+  ● RF-04 y RF-05: prioridad entre errores (tabla de decisión) › CP-16: el tipo se valida antes que el rango (supuesto 3)
+
+    expect(received).toThrow(expected)
+
+    Expected constructor: TypeError
+
+    Received function did not throw
+
+      84 | describe('RF-04 y RF-05: prioridad entre errores (tabla de decisión)', () => {
+      85 |   test('CP-16: el tipo se valida antes que el rango (supuesto 3)', () => {
+    > 86 |     expect(() => calcularTotal(-5, '2', 0)).toThrow(TypeError);
+         |                                             ^
+      87 |   });
+      88 | });
+      89 |
+
+      at Object.toThrow (tests/compras.test.js:86:45)
+
+Test Suites: 1 failed, 1 total
+Tests:       12 failed, 6 passed, 18 total
+Snapshots:   0 total
+Time:        0.305 s, estimated 1 s
+Ran all test suites.

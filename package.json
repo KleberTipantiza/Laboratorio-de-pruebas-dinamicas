@@ -1,0 +1,28 @@
+{
+  "name": "laboratorio-de-pruebas-dinamicas",
+  "version": "1.0.0",
+  "description": "Laboratorio de pruebas dinámicas: diseño de casos, automatización con Jest y gestión de defectos",
+  "main": "src/compras.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KleberTipantiza/Laboratorio-de-pruebas-dinamicas.git"
+  },
+  "keywords": [],
+  "author": "Kleber Tipantiza",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KleberTipantiza/Laboratorio-de-pruebas-dinamicas/issues"
+  },
+  "homepage": "https://github.com/KleberTipantiza/Laboratorio-de-pruebas-dinamicas#readme",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}
